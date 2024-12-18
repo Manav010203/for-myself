@@ -22,7 +22,13 @@ model User {
 model Stream {
   id String @id @default(uuid())
   type StreamType
-  active Boolean @default(false)
+  url String
+  extractedId String
+  title String  @default(" ")
+  smallImg String @default("")
+  largeImg String @default("")
+  active Boolean @default(true)
+  played Boolean @default(false)
   upvotes Upvote[]
   userId String
   user User @relation(fields: [userId],references: [id])
@@ -33,10 +39,11 @@ model Upvote{
   streamId String
   user User @relation(fields: [userId],references: [id])
   stream Stream @relation(fields: [streamId],references: [id])
+  @@unique([userId,streamId])
 }
 enum StreamType{
   Youtube
-  Spotify
+  Spotify 
 }
 enum Provider{
   Google
